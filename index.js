@@ -1,17 +1,16 @@
-var express = require('express')
-var fs = require('fs')
-var https = require('https')
-var app = express()
+var express = require('express');
+var app = express();
+var router = express.Router();
 
-app.get('/', function (req, res) {
-    res.send('hello world')
+/* GET home page. */
+app.get('/', function(req, res, next) {
+    res.writeHead(200,
+        {"Content-Type" : "text/plain"});
+    res.end("Hello World\n");
 })
+var port = 3000
 
-https.createServer({
-    key: fs.readFileSync('./key.pem', 'utf8'),
-    cert: fs.readFileSync('./server.crt', 'utf8')
-}, app)
-    .listen(3000, function () {
-        console.log('Example app listening on port 3000! Go to https://localhost:3000/')
-    })
-
+app.server = app.listen(port, function() {
+    console.log('server running @ http://localhost:${port}')
+})
+module.exports = router;
