@@ -8,7 +8,7 @@ app.get('/', function(req, res, next) {
         {"Content-Type" : "text/plain"});
     res.end("Hello World\n");
 })
-var port = 3000
+var port = process.env.PORT || 3000
 
 app.server = app.listen(port, function() {
     console.log('server running @ http://localhost:${port}')
