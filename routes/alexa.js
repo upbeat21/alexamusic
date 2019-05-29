@@ -8,7 +8,7 @@ var request = require('request')
 /* GET home page. */
 router.post('/', function(req, res, next) {
     var response = {};
-    if(req.body.payload.content.invocationRequest.body.request.type === 'LaunchRequest') {
+    if(req.body.request.type === 'LaunchRequest') {
         response.response = {};
         response.response.outputSpeech = {};
         response.response.outputSpeech.text = 'Welcome to Anna Music'
