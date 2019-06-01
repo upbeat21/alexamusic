@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var router = express.Router();
 var request = require('request')
+var data = require('./res.json')
 
 
 
@@ -15,7 +16,7 @@ router.post('/', function(req, res, next) {
     }
     res.writeHead(200,
         {"Content-Type" : "text/plain"});
-    res.end(JSON.stringify(response));
+    res.end(JSON.stringify(data));
 });
 
 module.exports = router;

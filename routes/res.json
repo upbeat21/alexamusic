@@ -1,0 +1,16 @@
+{
+  "version": "1.0",
+  "response": {
+    "outputSpeech": {
+      "type": "PlainText",
+      "text": "Getting started with Alexa Skill was created by Ryan on 4/16/2017 11:21:51 PM"
+    },
+    "card": {
+      "content": "Getting User Blog Info",
+      "title": "Keyhole Software",
+      "type": "Simple"
+    },
+    "shouldEndSession": true
+  },
+  "sessionAttributes": {}
+}
