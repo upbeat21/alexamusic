@@ -42,7 +42,7 @@ router.post('/', function(req, res, next) {
                     }
                 }
             ]
-            response.directives = directives;
+            response.response.directives = directives;
         }
 
     }
