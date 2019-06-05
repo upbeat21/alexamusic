@@ -32,28 +32,31 @@ router.post('/', function(req, res, next) {
             response.response.outputSpeech.text = "Now playing hot songs!"
             response.response.shouldEndSession = true
 
-            service.getHotSongs(0);
-
-            var directives = [
-                {
-                    type: "AudioPlayer.Play",
-                    playBehavior: "REPLACE_ALL",
-                    audioItem: {
-                        stream: {
-                            token: "track2-long-audio",
-                            url: "https://m10c.music.126.net/20190605063522/189950147da80a7c8ea3dd0fa7ed2896/ymusic/f370/248b/7eb6/2465d8966bb5aed27ca25813add52b49.mp3",
-                            offsetInMilliseconds: 0
+            service.getHotSongs(0, function(url){
+                var directives = [
+                    {
+                        type: "AudioPlayer.Play",
+                        playBehavior: "REPLACE_ALL",
+                        audioItem: {
+                            stream: {
+                                token: "track2-long-audio",
+                                url: url,
+                                offsetInMilliseconds: 0
+                            }
                         }
                     }
-                }
-            ]
-            response.response.directives = directives;
+                ]
+                response.response.directives = directives;
+                res.writeHead(200,
+                    {"Content-Type" : "text/plain"});
+                res.end(JSON.stringify(response));
+            })
+
+
         }
 
     }
-    res.writeHead(200,
-        {"Content-Type" : "text/plain"});
-    res.end(JSON.stringify(response));
+
 });
 
 module.exports = router;
