@@ -3,6 +3,7 @@ var app = express();
 var router = express.Router();
 var request = require('request')
 var data = require('./res.json')
+var service = require('./service.js')
 
 
 
@@ -13,7 +14,7 @@ router.post('/', function(req, res, next) {
         response: {
             outputSpeech: {
                 type: 'PlainText',
-                text: 'Welcome to Pipa Music, what are you up to today?'
+                text: ''
             },
             card: {
                 type: "Simple",
@@ -25,10 +26,14 @@ router.post('/', function(req, res, next) {
         }
     };
     if(req.body.request.type === 'LaunchRequest') {
-
+        response.response.outputSpeech.text = 'Welcome to Pipa Music, what are you up to today?'
     } else if(req.body.request.type === 'IntentRequest') {
         if(req.body.request.intent.name === 'PlayHotSongsIntent') {
+            response.response.outputSpeech.text = "Now playing hot songs!"
             response.response.shouldEndSession = true
+
+            service.getHotSongs(0);
+
             var directives = [
                 {
                     type: "AudioPlayer.Play",
@@ -36,7 +41,7 @@ router.post('/', function(req, res, next) {
                     audioItem: {
                         stream: {
                             token: "track2-long-audio",
-                            url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3",
+                            url: "https://m10c.music.126.net/20190605063522/189950147da80a7c8ea3dd0fa7ed2896/ymusic/f370/248b/7eb6/2465d8966bb5aed27ca25813add52b49.mp3",
                             offsetInMilliseconds: 0
                         }
                     }

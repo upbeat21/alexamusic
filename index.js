@@ -15,7 +15,7 @@ app.get('/', function(req, res, next) {
     res.end("Hello World\n");
 })
 app.use('/alexa', alexaRouter);
-var port = process.env.PORT || 3000
+var port = process.env.PORT || 4000
 
 app.server = app.listen(port, function() {
     console.log('server running @ http://localhost:${port}')
