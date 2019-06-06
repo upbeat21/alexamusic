@@ -32,15 +32,16 @@ router.post('/', function(req, res, next) {
             response.response.outputSpeech.text = "Now playing hot songs!"
             response.response.shouldEndSession = true
 
-            service.getHotSongs(0, function(url){
+            service.getHotSongs(0, false, function(song){
+                console.log(JSON.stringify(song))
                 var directives = [
                     {
                         type: "AudioPlayer.Play",
                         playBehavior: "REPLACE_ALL",
                         audioItem: {
                             stream: {
-                                token: "track2-long-audio",
-                                url: url,
+                                token: song.id,
+                                url: song.url,
                                 offsetInMilliseconds: 0
                             }
                         }
@@ -55,6 +56,28 @@ router.post('/', function(req, res, next) {
 
         }
 
+    } else if(req.body.request.type === 'AudioPlayer.PlaybackStarted') {
+        var id = req.body.request.token;
+        var song = service.getNextSong(id)
+        response.response.outputSpeech.text = ""
+        response.response.shouldEndSession = true
+        var directives = [
+            {
+                type: "AudioPlayer.Play",
+                playBehavior: "ENQUEUE",
+                audioItem: {
+                    stream: {
+                        token: song.id,
+                        url: song.url,
+                        offsetInMilliseconds: 0
+                    }
+                }
+            }
+        ]
+        response.response.directives = directives;
+        res.writeHead(200,
+            {"Content-Type" : "text/plain"});
+        res.end(JSON.stringify(response));
     }
 
 });
