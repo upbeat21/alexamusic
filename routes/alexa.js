@@ -69,7 +69,8 @@ router.post('/', function(req, res, next) {
                     stream: {
                         token: song.id,
                         url: song.url,
-                        offsetInMilliseconds: 0
+                        offsetInMilliseconds: 0,
+                        expectedPreviousToken: id
                     }
                 }
             }
