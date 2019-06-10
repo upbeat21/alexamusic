@@ -21,8 +21,7 @@ router.post('/', function(req, res, next) {
                 title: "Keyhole Software",
                 content: "Getting User Blog Info"
             },
-            shouldEndSession: false,
-            type: '_DEFAULT_RESPONSE'
+            shouldEndSession: false
         }
     };
     if(req.body.request.type === 'LaunchRequest') {
@@ -56,7 +55,7 @@ router.post('/', function(req, res, next) {
 
         }
 
-    } else if(req.body.request.type === 'AudioPlayer.PlaybackNearlyFinished') {
+    } /*else if(req.body.request.type === 'AudioPlayer.PlaybackNearlyFinished') {
         var id = req.body.request.token;
         var song = service.getNextSong(id)
         response.response.outputSpeech = undefined
@@ -81,7 +80,7 @@ router.post('/', function(req, res, next) {
         res.end(JSON.stringify(response));
     } else {
         res.writeHead(200, {"Content-Type" : "text/plain"})
-    }
+    }*/
 
 });
 
