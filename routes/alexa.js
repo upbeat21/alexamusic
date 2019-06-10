@@ -31,7 +31,7 @@ router.post('/', function(req, res, next) {
             response.response.outputSpeech.text = "Now playing hot songs!"
             response.response.shouldEndSession = true
 
-            service.getHotSongs(0, true, function(song){
+            service.getHotSongs(0, false, function(song){
                 console.log(JSON.stringify(song))
                 var directives = [
                     {
@@ -55,7 +55,7 @@ router.post('/', function(req, res, next) {
 
         }
 
-    } /*else if(req.body.request.type === 'AudioPlayer.PlaybackNearlyFinished') {
+    } else if(req.body.request.type === 'AudioPlayer.PlaybackNearlyFinished') {
         var id = req.body.request.token;
         var song = service.getNextSong(id)
         response.response.outputSpeech = undefined
@@ -80,7 +80,8 @@ router.post('/', function(req, res, next) {
         res.end(JSON.stringify(response));
     } else {
         res.writeHead(200, {"Content-Type" : "text/plain"})
-    }*/
+        res.end()
+    }
 
 });
 
