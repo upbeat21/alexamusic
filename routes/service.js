@@ -7,8 +7,9 @@ function getHotSongs(type, callService, callback) {
 
     if(!callService) {
         var hotSongs = dao.getHotSongs()
-        var isSongValid = checkSong(hotSongs[0].url)
-        if(hotSongs != undefined && hotSongs != "" && hotSongs.length > 0 && checkSong(hotSongs[0].url)) {
+        //var isSongValid = checkSong(hotSongs[0].url)
+        var isSongValid = true
+        if(hotSongs != undefined && hotSongs != "" && hotSongs.length > 0 && isSongValid) {
             addPlaylist(hotSongs.data)
             callback(hotSongs.data[0])
             return
