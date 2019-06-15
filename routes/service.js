@@ -1,4 +1,5 @@
 var request = require('request')
+const req = require('../utils/request')
 var dao = require('../db/dao.js')
 
 var host = 'https://musichihi.azurewebsites.net';
@@ -53,34 +54,54 @@ function getHotSongs(type, callService, callback) {
     });
 }
 
-function getNextSong(id) {
+async function getNextSong(id) {
     var song = undefined
     var playlist = dao.getPlaylist()
     if(playlist.length > 0) song = playlist[0]
     for(var i=0;i<playlist.length;i++) {
         if(playlist[i].id == id) {
             song = playlist[i+1]
+            break
         }
     }
-    return song
-    //Check if the CDN link has expired
-    /*var url = song.url
-    request(url, function (error, response, body) {
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode) // Print the response status code if a response was received
-        //console.log(body)
-        var res = JSON.parse(body)
-        var data = process(res)
-        console.log(JSON.stringify(data))
-        dao.saveHotSongs(data)
+    const url = await getSongUrl(playlist, i)
+    return {url: url, id: id}
+}
 
-        addPlaylist(data.data)
+async function getSongUrl(playlist, i, callback) {
 
-        callback(data.data[0])
-    });*/
+    try {
+        const res = await req('GET', playlist[i].url, '')
+        if(res && res.status != '200') {
+            await refreshPlaylistUrls(playlist)
+        }
+        return playlist[i]
+    } catch(error) {
+        console.log(error)
+        return undefined
+    }
 
 }
 
+async function refreshPlaylistUrls(playlist) {
+
+    var command = '/song/url?id='
+    for(var i=0;i<playlist.length;i++) {
+        command += playlist[i].id + ','
+    }
+    command = command.substr(0, command.length-1)
+    url = host + command
+
+    const res = await req('GET', url, '')
+    let data = process(res.body)
+    addPlaylist(data.data)
+
+    playlist = data.data
+
+    //get url for music id
+
+}
+//Parse the response body into hostSongs.json format
 function process(res) {
     var fileData = {}
     var data = [];

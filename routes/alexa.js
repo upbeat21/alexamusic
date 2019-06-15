@@ -8,7 +8,7 @@ var service = require('./service.js')
 
 
 /* GET home page. */
-router.post('/', function(req, res, next) {
+router.post('/', (async function(req, res, next) {
     var response = {
         version: '1.0',
         response: {
@@ -47,17 +47,23 @@ router.post('/', function(req, res, next) {
                     }
                 ]
                 response.response.directives = directives;
-                res.writeHead(200,
-                    {"Content-Type" : "text/plain"});
-                res.end(JSON.stringify(response));
-            })
 
+            })
+        } else if(req.body.request.intent.name = 'AMAZON.PauseIntent') {
+            var directives = [
+                {
+                    type: 'AudioPlayer.Stop'
+                }
+            ]
+            response.response.directives = directives
+            response.response.shouldEndSession = true
+        } else if(req.body.request.intent.name = 'AMAZON.ResumeIntent') {
 
         }
 
     } else if(req.body.request.type === 'AudioPlayer.PlaybackNearlyFinished') {
         var id = req.body.request.token;
-        var song = service.getNextSong(id)
+        var song = await service.getNextSong(id)
         response.response.outputSpeech = undefined
         response.response.card = undefined
         response.response.shouldEndSession = true
@@ -76,13 +82,23 @@ router.post('/', function(req, res, next) {
             }
         ]
         response.response.directives = directives;
-        res.writeHead(200, {"Content-Type" : "text/plain"})
-        res.end(JSON.stringify(response));
+    } else if(req.body.request.type === 'AudioPlayer.PlaybackPaused') {
+        var directives = [
+            {
+                type: 'AudioPlayer.Stop'
+            }
+        ]
+        response.response.directives = directives
+        response.response.shouldEndSession = true
     } else {
         res.writeHead(200, {"Content-Type" : "text/plain"})
         res.end()
+        return
     }
+    res.writeHead(200,
+        {"Content-Type" : "text/plain"});
+    res.end(JSON.stringify(response));
 
-});
+}));
 
 module.exports = router;
