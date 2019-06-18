@@ -4,54 +4,45 @@ var dao = require('../db/dao.js')
 
 var host = 'https://musichihi.azurewebsites.net';
 
-function getHotSongs(type, callService, callback) {
+async function getHotSongs(type) {
 
-    if(!callService) {
-        var hotSongs = dao.getHotSongs()
-        //var isSongValid = checkSong(hotSongs[0].url)
-        var isSongValid = true
-        if(hotSongs != undefined && hotSongs != "" && hotSongs.data.length > 0 && isSongValid) {
-            addPlaylist(hotSongs.data)
-            callback(hotSongs.data[0])
-            return
+    let playlist
+    let hotSongsDO = dao.getHotSongs()
+    //var isSongValid = checkSong(hotSongs[0].url)
+    let isSongValid = true
+    //After the if/else, we will populate the playlist with [{id:},{id:}]
+    //First read from db toget the hot songs
+    //TODO: Add retention period for hot songs in db
+    if(hotSongsDO != undefined && hotSongsDO != "" && hotSongsDO.data.length > 0 && isSongValid) {
+        //Add the ids to playlist
+        playlist = hotSongsDO.data
+    } else { //Then read from the service if none is in DB or it expires after the retention
+        let command = '/top/song?type=';
+        const typeList = [0,7,8,16,96]
+        if(typeList.indexOf(type) >= 0) command += type
+        else command += 0
+        let url = host + command
+        //Get hot songs by calling service
+        try {
+            const res = await req('GET', url, '')
+            const newHotSongsDO = {}
+            newHotSongsDO.date = new Date()
+            newHotSongsDO.data = new Array()
+            playlist = new Array()
+            for(let i=0;i<res.body.data.length;i++) {
+                newHotSongsDO.data.push({id:res.body.data[i].id})
+                playlist.push({id:res.body.data[i].id})
+            }
+            //Save the hot songs to hot songs DB with [{id:},{id:}], at now only saving ids, don't care if the song is playable or not
+            dao.saveHotSongs(newHotSongsDO)
+        } catch(err) {
+            console.log(err)
         }
     }
-
-    var command = '/top/song?type=';
-    var typeList = [0,7,8,16,96]
-    if(typeList.indexOf(type) >= 0) command += type
-    else command += 0
-    var url = host + command
-    console.log(url)
-    request(url, function (error, response, body) {
-        console.log('error:', error); // Print the error if one occurred
-        console.log('statusCode:', response && response.statusCode) // Print the response status code if a response was received
-        console.log(body)
-        var res = JSON.parse(body)
-
-
-        //get url for music id
-        command = '/song/url?id='
-        for(var i=0;i<res.data.length;i++) {
-            command += res.data[i].id + ','
-        }
-        command = command.substr(0, command.length-1)
-        url = host + command
-        console.log(url)
-        request(url, function (error, response, body) {
-            console.log('error:', error); // Print the error if one occurred
-            console.log('statusCode:', response && response.statusCode) // Print the response status code if a response was received
-            //console.log(body)
-            var res = JSON.parse(body)
-            var data = process(res)
-            console.log(JSON.stringify(data))
-            dao.saveHotSongs(data)
-
-            addPlaylist(data.data)
-
-            callback(data.data[0])
-        });
-    });
+    //Then refresh the urls for all the ids in the playlist
+    playlist = await refreshPlaylistUrls(playlist)
+    //Save the playlist to db with [{id:,url:}]
+    return playlist
 }
 
 async function getNextSong(id) {
@@ -73,7 +64,7 @@ async function getSongUrl(playlist, i, callback) {
     try {
         const res = await req('GET', playlist[i].url, '')
         if(res && res.status != '200') {
-            await refreshPlaylistUrls(playlist)
+            playlist = await refreshPlaylistUrls(playlist)
         }
         return playlist[i]
     } catch(error) {
@@ -83,8 +74,8 @@ async function getSongUrl(playlist, i, callback) {
 
 }
 
+//refresh all the urls or add urls for the playlist and change the value of playlist, then save the playlist to DB
 async function refreshPlaylistUrls(playlist) {
-
     var command = '/song/url?id='
     for(var i=0;i<playlist.length;i++) {
         command += playlist[i].id + ','
@@ -96,16 +87,13 @@ async function refreshPlaylistUrls(playlist) {
     let data = process(res.body)
     addPlaylist(data.data)
 
-    playlist = data.data
-
-    //get url for music id
+    return data.data
 
 }
 //Parse the response body into hostSongs.json format
 function process(res) {
     var fileData = {}
     var data = [];
-    console.log(Object.keys(res))
     for(var i=0;i<res.data.length;i++) {
         if(!res.data[i].url && res.data[i] != undefined) continue
         data[i] = {}
@@ -124,7 +112,6 @@ function addPlaylist(songs) {
 function getUrl(url) {
     url = url.replace('http', 'https')
     url = url.replace(/(m\d+?)(?!c)\.music\.126\.net/, '$1c.music.126.net')
-    console.log(url)
     return url
 }
 

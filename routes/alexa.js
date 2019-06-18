@@ -31,24 +31,22 @@ router.post('/', (async function(req, res, next) {
             response.response.outputSpeech.text = "Now playing hot songs!"
             response.response.shouldEndSession = true
 
-            service.getHotSongs(0, false, function(song){
-                console.log(JSON.stringify(song))
-                var directives = [
-                    {
-                        type: "AudioPlayer.Play",
-                        playBehavior: "REPLACE_ALL",
-                        audioItem: {
-                            stream: {
-                                token: song.id,
-                                url: song.url,
-                                offsetInMilliseconds: 0
-                            }
+            let playlist = await service.getHotSongs(0)
+
+            var directives = [
+                {
+                    type: "AudioPlayer.Play",
+                    playBehavior: "REPLACE_ALL",
+                    audioItem: {
+                        stream: {
+                            token: playlist[0].id,
+                            url: playlist[0].url,
+                            offsetInMilliseconds: 0
                         }
                     }
-                ]
-                response.response.directives = directives;
-
-            })
+                }
+            ]
+            response.response.directives = directives;
         } else if(req.body.request.intent.name = 'AMAZON.PauseIntent') {
             var directives = [
                 {
