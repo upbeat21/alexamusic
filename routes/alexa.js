@@ -28,7 +28,6 @@ router.post('/', (async function(req, res, next) {
         response.response.outputSpeech.text = 'Welcome to Pipa Music, what are you up to today?'
     } else if(req.body.request.type === 'IntentRequest') {
         if(req.body.request.intent.name === 'PlayHotSongsIntent') {
-            response.response.outputSpeech.text = "Now playing hot songs!"
             response.response.shouldEndSession = true
 
             let playlist = await service.getHotSongs(0)
@@ -47,6 +46,9 @@ router.post('/', (async function(req, res, next) {
                 }
             ]
             response.response.directives = directives;
+            response.response.outputSpeech.text = "Now playing hot songs " + playlist[0].id
+            response.response.card.title = playlist[0].id
+            response.response.card.content = playlist[0].url
         } else if(req.body.request.intent.name = 'AMAZON.PauseIntent') {
             var directives = [
                 {
