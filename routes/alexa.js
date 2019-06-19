@@ -49,7 +49,7 @@ router.post('/', (async function(req, res, next) {
             response.response.outputSpeech.text = "Now playing hot songs " + playlist[0].id
             response.response.card.title = playlist[0].id
             response.response.card.content = playlist[0].url
-        } else if(req.body.request.intent.name = 'AMAZON.PauseIntent') {
+        } /*else if(req.body.request.intent.name = 'AMAZON.PauseIntent') {
             var directives = [
                 {
                     type: 'AudioPlayer.Stop'
@@ -61,7 +61,7 @@ router.post('/', (async function(req, res, next) {
 
         }
 
-    } else if(req.body.request.type === 'AudioPlayer.PlaybackNearlyFinished') {
+    }*/ else if(req.body.request.type === 'AudioPlayer.PlaybackNearlyFinished') {
         var id = req.body.request.token;
         var song = await service.getNextSong(id)
         response.response.outputSpeech = undefined
