@@ -45,21 +45,33 @@ async function getHotSongs(type) {
     return playlist
 }
 
-async function getNextSong(id) {
+async function getSongFromPlaylist(id, offset, offsetInMilliseconds) { //Get the song from playlist for with song id and the offset in the list
     var song = undefined
     var playlist = dao.getPlaylist()
     if(playlist.length > 0) song = playlist[0]
     for(var i=0;i<playlist.length;i++) {
         if(playlist[i].id == id) {
-            song = playlist[i+1]
+            song = playlist[i+offset]
             break
         }
     }
     const url = await getSongUrl(playlist, i)
-    return {url: url, id: id}
+    return {url: url, id: id, offsetInMilliseconds: offsetInMilliseconds}
 }
 
-async function getSongUrl(playlist, i, callback) {
+async function getPausedSong() {
+    let pausedSong = dao.getPausedSong()  //{"id":"1368725399","offsetInMilliseconds":100}
+    pausedSong = getSongFromPlaylist(pausedSong.id, 0, pausedSong.offsetInMilliseconds)
+    return pausedSong
+
+}
+
+function savePausedSong(id, offsetInMilliseconds) {
+    const data = {id: id, offsetInMilliseconds: offsetInMilliseconds}
+    dao.savePausedSong(data)
+}
+
+async function getSongUrl(playlist, i) {
 
     try {
         const res = await req('GET', playlist[i].url, '')
@@ -118,5 +130,7 @@ function getUrl(url) {
 
 module.exports = {
     getHotSongs: getHotSongs,
-    getNextSong: getNextSong
+    getSongFromPlaylist: getSongFromPlaylist,
+    savePausedSong: savePausedSong,
+    getPausedSong: getPausedSong
 }

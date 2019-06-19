@@ -49,7 +49,7 @@ router.post('/', (async function(req, res, next) {
             response.response.outputSpeech.text = "Now playing hot songs " + playlist[0].id
             response.response.card.title = playlist[0].id
             response.response.card.content = playlist[0].url
-        } /*else if(req.body.request.intent.name = 'AMAZON.PauseIntent') {
+        } else if(req.body.request.intent.name === 'AMAZON.PauseIntent') {
             var directives = [
                 {
                     type: 'AudioPlayer.Stop'
@@ -57,13 +57,31 @@ router.post('/', (async function(req, res, next) {
             ]
             response.response.directives = directives
             response.response.shouldEndSession = true
-        } else if(req.body.request.intent.name = 'AMAZON.ResumeIntent') {
-
-        }*/
+        } else if(req.body.request.intent.name === 'AMAZON.ResumeIntent') {
+            const song = await service.getPausedSong()
+            var directives = [
+                {
+                    type: "AudioPlayer.Play",
+                    playBehavior: "REPLACE_ALL",
+                    audioItem: {
+                        stream: {
+                            token: song.id,
+                            url: song.url,
+                            offsetInMilliseconds: song.offsetInMilliseconds
+                        }
+                    }
+                }
+            ]
+            response.response.directives = directives;
+            response.response.outputSpeech.text = "Now playing hot songs " + song.id
+            response.response.card.title = song.id
+            response.response.card.content = song.url
+        }
 
     } else if(req.body.request.type === 'AudioPlayer.PlaybackNearlyFinished') {
         var id = req.body.request.token;
-        var song = await service.getNextSong(id)
+        //Get next song from playlist
+        var song = await service.getSongFromPlaylist(id, 1, 0)
         response.response.outputSpeech = undefined
         response.response.card = undefined
         response.response.shouldEndSession = true
@@ -82,14 +100,9 @@ router.post('/', (async function(req, res, next) {
             }
         ]
         response.response.directives = directives;
-    } else if(req.body.request.type === 'AudioPlayer.PlaybackPaused') {
-        var directives = [
-            {
-                type: 'AudioPlayer.Stop'
-            }
-        ]
-        response.response.directives = directives
-        response.response.shouldEndSession = true
+    } else if(req.body.request.type === 'AudioPlayer.PlaybackStopped') {
+        response = undefined
+        service.savePausedSong(req.body.request.token, req.body.request.offsetInMilliseconds)
     } else {
         res.writeHead(200, {"Content-Type" : "text/plain"})
         res.end()

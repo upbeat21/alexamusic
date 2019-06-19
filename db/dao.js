@@ -24,9 +24,23 @@ function getPlaylist() {
     return data != "" ? JSON.parse(data) : undefined
 }
 
+function savePausedSong(data) {
+    fs.writeFile(__dirname + '/songOffset.json', JSON.stringify(data), function(err){
+        if(err) console.log(err)
+        else console.log('Playlist saved!')
+    })
+}
+
+function getPausedSong() {
+    var data = fs.readFileSync(__dirname + '/songOffset.json')
+    return data != "" ? JSON.parse(data) : undefined
+}
+
 module.exports = {
     saveHotSongs: saveHotSongs,
     getHotSongs: getHotSongs,
     savePlaylist: savePlaylist,
-    getPlaylist: getPlaylist
+    getPlaylist: getPlaylist,
+    savePausedSong: savePausedSong,
+    getPausedSong: getPausedSong
 }
