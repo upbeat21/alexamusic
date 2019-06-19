@@ -90,6 +90,7 @@ router.post('/', (async function(req, res, next) {
         ]
         response.response.directives = directives
         response.response.shouldEndSession = true
+        response.response.card.title = req.body.request.offsetInMilliseconds
     } else {
         res.writeHead(200, {"Content-Type" : "text/plain"})
         res.end()
