@@ -59,9 +59,9 @@ router.post('/', (async function(req, res, next) {
             response.response.shouldEndSession = true
         } else if(req.body.request.intent.name = 'AMAZON.ResumeIntent') {
 
-        }
+        }*/
 
-    }*/ else if(req.body.request.type === 'AudioPlayer.PlaybackNearlyFinished') {
+    } else if(req.body.request.type === 'AudioPlayer.PlaybackNearlyFinished') {
         var id = req.body.request.token;
         var song = await service.getNextSong(id)
         response.response.outputSpeech = undefined
