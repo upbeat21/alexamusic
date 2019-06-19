@@ -55,8 +55,8 @@ async function getSongFromPlaylist(id, offset, offsetInMilliseconds) { //Get the
             break
         }
     }
-    const url = await getSongUrl(playlist, i)
-    return {url: url, id: id, offsetInMilliseconds: offsetInMilliseconds}
+    const url = await getSongUrl(playlist, i+offset)
+    return {url: url, id: song.id, offsetInMilliseconds: offsetInMilliseconds}
 }
 
 async function getPausedSong() {
@@ -78,7 +78,7 @@ async function getSongUrl(playlist, i) {
         if(res && res.status != '200') {
             playlist = await refreshPlaylistUrls(playlist)
         }
-        return playlist[i]
+        return playlist[i].url
     } catch(error) {
         console.log(error)
         return undefined

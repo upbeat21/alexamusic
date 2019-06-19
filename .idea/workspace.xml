@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e07bee15-f2dd-4440-a53d-c514a43a9bd8" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/db/songOffset.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/dao.js" beforeDir="false" afterPath="$PROJECT_DIR$/db/dao.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/playlist.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/playlist.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/alexa.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/alexa.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/service.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/service.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -18,20 +14,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/alexa.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="604">
-              <caret line="60" column="31" selection-start-line="60" selection-start-column="31" selection-end-line="60" selection-end-column="31" />
+            <state relative-caret-position="584">
+              <caret line="83" column="47" lean-forward="true" selection-start-line="83" selection-start-column="47" selection-end-line="83" selection-end-column="47" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/service.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="333">
-              <caret line="59" selection-start-line="59" selection-end-line="59" />
+            <state relative-caret-position="474">
+              <caret line="58" column="33" selection-start-line="58" selection-start-column="33" selection-end-line="58" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -49,7 +45,7 @@
         <entry file="file://$PROJECT_DIR$/db/songOffset.json">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="46" lean-forward="true" selection-end-column="46" />
+              <caret column="47" lean-forward="true" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -95,9 +91,9 @@
       <find>req</find>
       <find>refreshPlaylistUrls</find>
       <find>console</find>
-      <find>1313107141</find>
       <find>getnext</find>
       <find>date</find>
+      <find>1313107141</find>
       <find>getPausedSong</find>
     </findStrings>
   </component>
@@ -121,8 +117,8 @@
         <option value="$PROJECT_DIR$/utils/request.js" />
         <option value="$PROJECT_DIR$/db/hotSongs.json" />
         <option value="$PROJECT_DIR$/db/dao.js" />
-        <option value="$PROJECT_DIR$/routes/service.js" />
         <option value="$PROJECT_DIR$/routes/alexa.js" />
+        <option value="$PROJECT_DIR$/routes/service.js" />
       </list>
     </option>
   </component>
@@ -177,7 +173,7 @@
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1560977173665" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1560977960122" />
     <property name="javascript.nodejs.core.library.configured.version" value="10.14.0" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -215,12 +211,12 @@
       <option name="presentableId" value="Default" />
       <updated>1558766123485</updated>
       <workItem from="1558766129786" duration="40779000" />
-      <workItem from="1560270818886" duration="30846000" />
+      <workItem from="1560270818886" duration="31599000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="71625000" />
+    <option name="totallyTimeSpent" value="72378000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -251,7 +247,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32959184" />
       <window_info anchor="bottom" id="TypeScript" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.498779" weight="0.2622449" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.498779" weight="0.2620438" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50119144" side_tool="true" weight="0.26569343" />
       <window_info anchor="bottom" id="Database Changes" order="11" />
@@ -452,13 +448,6 @@
         <state relative-caret-position="-21896" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/db/playlist.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="11205" selection-start-column="11205" selection-end-column="11205" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -486,21 +475,28 @@
     <entry file="file://$PROJECT_DIR$/db/songOffset.json">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="46" lean-forward="true" selection-end-column="46" />
+          <caret column="47" lean-forward="true" selection-end-column="47" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/service.js">
+    <entry file="file://$PROJECT_DIR$/db/playlist.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="59" selection-start-line="59" selection-end-line="59" />
+        <state>
+          <caret column="11205" selection-start-column="11205" selection-end-column="11205" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/alexa.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="604">
-          <caret line="60" column="31" selection-start-line="60" selection-start-column="31" selection-end-line="60" selection-end-column="31" />
+        <state relative-caret-position="584">
+          <caret line="83" column="47" lean-forward="true" selection-start-line="83" selection-start-column="47" selection-end-line="83" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/service.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="474">
+          <caret line="58" column="33" selection-start-line="58" selection-start-column="33" selection-end-line="58" selection-end-column="33" />
         </state>
       </provider>
     </entry>
