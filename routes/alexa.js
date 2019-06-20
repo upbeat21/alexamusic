@@ -29,7 +29,10 @@ router.post('/', (async function(req, res, next) {
     } else if(req.body.request.type === 'IntentRequest') {
         if(req.body.request.intent.name === 'PlayNewSongsIntent') {
             response.response.shouldEndSession = true
-            let songType = req.body.request.intent.slots.type.value
+            let songType
+            if(req.body.request.intent.slots != undefined)
+                songType = req.body.request.intent.slots.type.value
+            else songType = 'all'
             let playlist = await service.getNewSongs(songType)
 
             var directives = [
