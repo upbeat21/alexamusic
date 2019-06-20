@@ -1,40 +1,41 @@
 var request = require('request')
 const req = require('../utils/request')
 var dao = require('../db/dao.js')
+const mapper = require('../utils/mapper')
 
 var host = 'https://musichihi.azurewebsites.net';
 
-async function getHotSongs(type) {
-
+async function getNewSongs(songType) {
+    let type = mapper.mapNewSongType(songType)
     let playlist
-    let hotSongsDO = dao.getHotSongs()
-    //var isSongValid = checkSong(hotSongs[0].url)
+    let newSongsDO = dao.getNewSongs(type)
+    //var isSongValid = checkSong(newSongs[0].url)
     let isSongValid = true
     //After the if/else, we will populate the playlist with [{id:},{id:}]
-    //First read from db toget the hot songs
-    //TODO: Add retention period for hot songs in db
-    if(hotSongsDO != undefined && hotSongsDO != "" && hotSongsDO.data.length > 0 && isSongValid) {
+    //First read from db toget the new songs
+    //TODO: Add retention period for new songs in db
+    if(newSongsDO != undefined && newSongsDO != "" && newSongsDO.data.length > 0 && isSongValid) {
         //Add the ids to playlist
-        playlist = hotSongsDO.data
+        playlist = newSongsDO.data
     } else { //Then read from the service if none is in DB or it expires after the retention
         let command = '/top/song?type=';
         const typeList = [0,7,8,16,96]
         if(typeList.indexOf(type) >= 0) command += type
         else command += 0
         let url = host + command
-        //Get hot songs by calling service
+        //Get new songs by calling service
         try {
             const res = await req('GET', url, '')
-            const newHotSongsDO = {}
-            newHotSongsDO.date = new Date()
-            newHotSongsDO.data = new Array()
+            const newNewSongsDO = {}
+            newNewSongsDO.date = new Date()
+            newNewSongsDO.data = new Array()
             playlist = new Array()
             for(let i=0;i<res.body.data.length;i++) {
-                newHotSongsDO.data.push({id:res.body.data[i].id})
+                newNewSongsDO.data.push({id:res.body.data[i].id})
                 playlist.push({id:res.body.data[i].id})
             }
-            //Save the hot songs to hot songs DB with [{id:},{id:}], at now only saving ids, don't care if the song is playable or not
-            dao.saveHotSongs(newHotSongsDO)
+            //Save the new songs to new songs DB with [{id:},{id:}], at now only saving ids, don't care if the song is playable or not
+            dao.saveNewSongs(newNewSongsDO, type)
         } catch(err) {
             console.log(err)
         }
@@ -129,7 +130,7 @@ function getUrl(url) {
 
 
 module.exports = {
-    getHotSongs: getHotSongs,
+    getNewSongs: getNewSongs,
     getSongFromPlaylist: getSongFromPlaylist,
     savePausedSong: savePausedSong,
     getPausedSong: getPausedSong

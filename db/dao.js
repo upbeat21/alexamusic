@@ -1,14 +1,14 @@
 var fs = require('fs')
 
-function saveHotSongs(data) {
-    fs.writeFile(__dirname + '/hotSongs.json', JSON.stringify(data), function(err){
+function saveNewSongs(data, type) {
+    fs.writeFile(__dirname + '/newSongs' + type + '.json', JSON.stringify(data), function(err){
         if(err) console.log(err)
-        else console.log('Hot songs saved!')
+        else console.log('New songs saved!')
     })
 }
 
-function getHotSongs() {
-    var data = fs.readFileSync(__dirname + '/hotSongs.json')
+function getNewSongs(type) {
+    var data = fs.readFileSync(__dirname + '/newSongs' + type + '.json')
     return data != "" ? JSON.parse(data) : undefined
 }
 
@@ -37,8 +37,8 @@ function getPausedSong() {
 }
 
 module.exports = {
-    saveHotSongs: saveHotSongs,
-    getHotSongs: getHotSongs,
+    saveNewSongs: saveNewSongs,
+    getNewSongs: getNewSongs,
     savePlaylist: savePlaylist,
     getPlaylist: getPlaylist,
     savePausedSong: savePausedSong,

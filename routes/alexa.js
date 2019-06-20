@@ -1,10 +1,10 @@
-var express = require('express');
-var app = express();
-var router = express.Router();
-var request = require('request')
-var data = require('./res.json')
-var service = require('./service.js')
-
+const express = require('express');
+const app = express();
+const router = express.Router();
+const request = require('request')
+const data = require('./res.json')
+const service = require('./service.js')
+const mapper = require('../utils/mapper.js')
 
 
 /* GET home page. */
@@ -27,10 +27,10 @@ router.post('/', (async function(req, res, next) {
     if(req.body.request.type === 'LaunchRequest') {
         response.response.outputSpeech.text = 'Welcome to Pipa Music, what are you up to today?'
     } else if(req.body.request.type === 'IntentRequest') {
-        if(req.body.request.intent.name === 'PlayHotSongsIntent') {
+        if(req.body.request.intent.name === 'PlayNewSongsIntent') {
             response.response.shouldEndSession = true
-
-            let playlist = await service.getHotSongs(0)
+            let songType = req.body.request.intent.slots.type.value
+            let playlist = await service.getNewSongs(songType)
 
             var directives = [
                 {
@@ -46,7 +46,7 @@ router.post('/', (async function(req, res, next) {
                 }
             ]
             response.response.directives = directives;
-            response.response.outputSpeech.text = "Now playing hot songs " + playlist[0].id
+            response.response.outputSpeech.text = "Now playing new songs " + playlist[0].id
             response.response.card.title = playlist[0].id
             response.response.card.content = playlist[0].url
         } else if(req.body.request.intent.name === 'AMAZON.PauseIntent') {
@@ -73,9 +73,10 @@ router.post('/', (async function(req, res, next) {
                 }
             ]
             response.response.directives = directives;
-            response.response.outputSpeech.text = "Now playing hot songs " + song.id
+            response.response.outputSpeech.text = undefined
             response.response.card.title = song.id
             response.response.card.content = song.url
+            response.response.shouldEndSession = true
         }
 
     } else if(req.body.request.type === 'AudioPlayer.PlaybackNearlyFinished') {
