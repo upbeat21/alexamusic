@@ -1,5 +1,6 @@
 
 function mapNewSongType(songType) {
+    if(songType == undefined || songType == null) return 0
     songType = songType.toLowerCase()
     if(songType === 'chinese' || songType === 'china' || songType === 'mandarin') {
         return 7

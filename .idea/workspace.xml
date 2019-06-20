@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e07bee15-f2dd-4440-a53d-c514a43a9bd8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/routes/alexa.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/alexa.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/playlist.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/playlist.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/mapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils/mapper.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -13,7 +14,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/alexa.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="268">
@@ -22,11 +23,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/utils/mapper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="34" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
+            <state relative-caret-position="30">
+              <caret line="2" column="58" selection-start-line="2" selection-start-column="58" selection-end-line="2" selection-end-column="58" />
             </state>
           </provider>
         </entry>
@@ -58,7 +59,7 @@
         <entry file="file://$PROJECT_DIR$/db/playlist.json">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="4974" selection-start-column="4971" selection-end-column="4974" />
+              <caret column="4974" selection-start-column="4974" selection-end-column="4974" />
             </state>
           </provider>
         </entry>
@@ -128,10 +129,10 @@
         <option value="$PROJECT_DIR$/request.js" />
         <option value="$PROJECT_DIR$/utils/request.js" />
         <option value="$PROJECT_DIR$/db/hotSongs.json" />
-        <option value="$PROJECT_DIR$/utils/mapper.js" />
         <option value="$PROJECT_DIR$/db/dao.js" />
         <option value="$PROJECT_DIR$/routes/service.js" />
         <option value="$PROJECT_DIR$/routes/alexa.js" />
+        <option value="$PROJECT_DIR$/utils/mapper.js" />
       </list>
     </option>
   </component>
@@ -185,7 +186,7 @@
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1561015613437" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1561016349825" />
     <property name="javascript.nodejs.core.library.configured.version" value="10.14.0" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -223,12 +224,12 @@
       <option name="presentableId" value="Default" />
       <updated>1558766123485</updated>
       <workItem from="1558766129786" duration="40779000" />
-      <workItem from="1560270818886" duration="38241000" />
+      <workItem from="1560270818886" duration="38599000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="79020000" />
+    <option name="totallyTimeSpent" value="79378000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -253,8 +254,8 @@
       <window_info id="npm" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32959184" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.497558" weight="0.23265307" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.497558" visible="true" weight="0.26530612" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.497558" visible="true" weight="0.23265307" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.497558" weight="0.26530612" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32959184" />
@@ -516,20 +517,13 @@
     <entry file="file://$PROJECT_DIR$/db/newSongs16.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/utils/mapper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="34" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/newSongs7.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/db/playlist.json">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="4974" selection-start-column="4971" selection-end-column="4974" />
+          <caret column="4974" selection-start-column="4974" selection-end-column="4974" />
         </state>
       </provider>
     </entry>
@@ -537,6 +531,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="268">
           <caret line="34" column="33" selection-start-line="34" selection-start-column="33" selection-end-line="34" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/utils/mapper.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="58" selection-start-line="2" selection-start-column="58" selection-end-line="2" selection-end-column="58" />
         </state>
       </provider>
     </entry>
