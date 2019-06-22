@@ -21,7 +21,7 @@ router.post('/', (async function(req, res, next) {
                 title: "Keyhole Software",
                 content: "Getting User Blog Info"
             },
-            shouldEndSession: false
+            shouldEndSession: true
         }
     };
     if(req.body.request.type === 'LaunchRequest') {
