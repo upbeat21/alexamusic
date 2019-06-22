@@ -3,8 +3,8 @@ const req = require('../utils/request')
 var dao = require('../db/dao.js')
 const mapper = require('../utils/mapper')
 
-//var host = 'https://musichihi.azurewebsites.net';
-var host = 'http://localhost:3000'
+var host = 'https://musichihi.azurewebsites.net';
+//var host = 'http://localhost:3000'
 
 async function getNewSongs(songType) {
     let type = mapper.mapNewSongType(songType)
