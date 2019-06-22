@@ -3,7 +3,8 @@ const req = require('../utils/request')
 var dao = require('../db/dao.js')
 const mapper = require('../utils/mapper')
 
-var host = 'https://musichihi.azurewebsites.net';
+//var host = 'https://musichihi.azurewebsites.net';
+var host = 'http://localhost:3000'
 
 async function getNewSongs(songType) {
     let type = mapper.mapNewSongType(songType)
@@ -26,24 +27,88 @@ async function getNewSongs(songType) {
         //Get new songs by calling service
         try {
             const res = await req('GET', url, '')
-            const newNewSongsDO = {}
-            newNewSongsDO.date = new Date()
-            newNewSongsDO.data = new Array()
+            const newSongsDO = {}
+            newSongsDO.date = new Date()
+            newSongsDO.data = new Array()
             playlist = new Array()
             for(let i=0;i<res.body.data.length;i++) {
-                newNewSongsDO.data.push({id:res.body.data[i].id})
+                newSongsDO.data.push({id:res.body.data[i].id})
                 playlist.push({id:res.body.data[i].id})
             }
             //Save the new songs to new songs DB with [{id:},{id:}], at now only saving ids, don't care if the song is playable or not
-            dao.saveNewSongs(newNewSongsDO, type)
+            dao.saveNewSongs(newSongsDO, type)
         } catch(err) {
-            console.log(err)
+            console.log("Get an error when get new songs from service " + err)
         }
     }
     //Then refresh the urls for all the ids in the playlist
     playlist = await refreshPlaylistUrls(playlist)
     //Save the playlist to db with [{id:,url:}]
     return playlist
+}
+
+async function getSongsOfArtist(artistName) {
+    try {
+        const res = await search(artistName, 100)
+        let artistResult = res.body.result.artists[0]
+        let artistId = artistResult.id
+        //Use alias for now assuming alias is always English
+        let artistAlias = artistResult.alias.length > 0 ? artistResult.alias[0] : undefined
+        let artistSongsDO = dao.getArtistSongs(artistId)
+        //If cannot read from the DB, then make service call
+        if(!artistSongsDO) {
+            artistSongsDO = {}
+            let artistSongs = await getArtistSongs(artistId)
+            let data = []
+            for(let i=0;i<artistSongs.body.hotSongs.length;i++) {
+                data[i] = {}
+                data[i].id = artistSongs.body.hotSongs[i].id
+
+            }
+            artistSongsDO.data = data
+            artistSongsDO.date = new Date()
+            dao.saveArtistSongs(artistSongsDO, artistId)
+
+        }
+        let playlist = artistSongsDO.data
+        playlist = await refreshPlaylistUrls(playlist)
+        return playlist
+    } catch(err) {
+        console.log("Get an error when get artist songs from service " + err)
+    }
+}
+
+
+/*
+1: Single song, 10: Album, 100: Artist, 1000: Playlist, 1002: User, 1004: MV, 1006: Lyrics, 1009: Radio Station, 1014: Video
+
+
+ */
+async function search(keyword, type) {
+    let command = '/search?keywords='
+    command += keyword
+    if(type != undefined && type != null) {
+        command += '&type=' + type
+    }
+    let url = host + command
+    try {
+        const res = await req('GET', url, '')
+        return res
+    } catch(err) {
+        console.log("Get an error when search " + err)
+    }
+}
+
+async function getArtistSongs(artistId) {
+    let command = '/artists?id='
+    command += artistId
+    let url = host + command
+    try {
+        const res = await req('GET', url, '')
+        return res
+    } catch(err) {
+        console.log("Get an error when getting artist songs " + err)
+    }
 }
 
 async function getSongFromPlaylist(id, offset, offsetInMilliseconds) { //Get the song from playlist for with song id and the offset in the list
@@ -97,14 +162,14 @@ async function refreshPlaylistUrls(playlist) {
     url = host + command
 
     const res = await req('GET', url, '')
-    let data = process(res.body)
+    let data = processHotSongs(res.body)
     addPlaylist(data.data)
 
     return data.data
 
 }
 //Parse the response body into hostSongs.json format
-function process(res) {
+function processHotSongs(res) {
     var fileData = {}
     var data = [];
     for(var i=0;i<res.data.length;i++) {
@@ -133,5 +198,6 @@ module.exports = {
     getNewSongs: getNewSongs,
     getSongFromPlaylist: getSongFromPlaylist,
     savePausedSong: savePausedSong,
-    getPausedSong: getPausedSong
+    getPausedSong: getPausedSong,
+    getSongsOfArtist: getSongsOfArtist
 }

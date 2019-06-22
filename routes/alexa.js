@@ -52,6 +52,26 @@ router.post('/', (async function(req, res, next) {
             response.response.outputSpeech.text = "Now playing new songs " + playlist[0].id
             response.response.card.title = playlist[0].id
             response.response.card.content = playlist[0].url
+        } else if(req.body.request.intent.name === 'PlayArtistSongIntent') {
+            let artistName = req.body.request.intent.slots.artist.value
+            let playlist = await service.getSongsOfArtist(artistName)
+            var directives = [
+                {
+                    type: "AudioPlayer.Play",
+                    playBehavior: "REPLACE_ALL",
+                    audioItem: {
+                        stream: {
+                            token: playlist[0].id,
+                            url: playlist[0].url,
+                            offsetInMilliseconds: 0
+                        }
+                    }
+                }
+            ]
+            response.response.directives = directives;
+            response.response.outputSpeech.text = "Now playing new songs " + playlist[0].id
+            response.response.card.title = playlist[0].id
+            response.response.card.content = playlist[0].url
         } else if(req.body.request.intent.name === 'AMAZON.PauseIntent') {
             var directives = [
                 {

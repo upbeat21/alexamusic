@@ -8,8 +8,28 @@ function saveNewSongs(data, type) {
 }
 
 function getNewSongs(type) {
-    var data = fs.readFileSync(__dirname + '/newSongs' + type + '.json')
-    return data != "" ? JSON.parse(data) : undefined
+    try {
+        var data = fs.readFileSync(__dirname + '/newSongs' + type + '.json')
+        return data != "" ? JSON.parse(data) : undefined
+    } catch(err) {
+        return undefined
+    }
+}
+
+function saveArtistSongs(data, artistId) {
+    fs.writeFile(__dirname + '/artistSongs/' + artistId + '.json', JSON.stringify(data), function(err){
+        if(err) console.log(err)
+        else console.log('Artist song saved! ' + artistId)
+    })
+}
+
+function getArtistSongs(artistId) {
+    try {
+        var data = fs.readFileSync(__dirname + '/artistSongs/' + artistId + '.json')
+        return data != "" ? JSON.parse(data) : undefined
+    } catch(err) {
+        return undefined
+    }
 }
 
 function savePlaylist(songs) {
@@ -42,5 +62,7 @@ module.exports = {
     savePlaylist: savePlaylist,
     getPlaylist: getPlaylist,
     savePausedSong: savePausedSong,
-    getPausedSong: getPausedSong
+    getPausedSong: getPausedSong,
+    saveArtistSongs: saveArtistSongs,
+    getArtistSongs: getArtistSongs
 }
